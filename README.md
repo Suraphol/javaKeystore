@@ -1,5 +1,5 @@
 # JavaKeystore
-## กรณีมีเฉพาะไฟบ์ .pem
+## กรณีมีเฉพาะไฟล์ .pem
 
 ### แปลงไฟล์ .pem เป็น .p12
 
@@ -63,4 +63,27 @@ keytool -importcert \
 ### ตรวจสอบการนำเข้า keystore
 ```bash
 keytool -list -v -keystore keystore.jks
+```
+
+
+## Download Certificate จากเว็บไฟต์
+```bash
+openssl s_client -showcerts -connect url:port < /dev/null | openssl x509 -outform PEM > [filename.cert]
+```
+
+## นำ certificate ที่ download มาเข้า JavaStore
+```bash
+keytool -importcert -file [filename.cert] -alias [aliasName] -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+```
+## ตรวจสอบ cert หลังนำเข้า
+```bash
+keytool -list -v -alias [alias_name] -cacerts - storepass changeit
+
+# or
+
+keytool -list -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit | grep [alias_name]
+```
+## ลบ certificate 
+```bash
+keytool -delete -alias [name_alias] -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
 ```
