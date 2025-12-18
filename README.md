@@ -35,9 +35,12 @@ cat certificate.pem private_key.pem > combined.pem
 ### แปลงเป็น .p12
 ```bash
 openssl pkcs12 -export \
--in combined.pem \
+-in your-website-cert.crt \
+-inkey file.key \
+-certfile certificate_CA.crt
 -out certificate.p12 \
 -name "your_alias"
+-passout pass:yourP12Password
 ```
 
 ### import p12 to java keystore
